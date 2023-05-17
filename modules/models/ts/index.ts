@@ -1,21 +1,24 @@
 import { OpenAI } from "langchain/llms/openai";
 import { RetrievalQAChain } from "langchain/chains";
 import { ReactiveModel } from "@beyond-js/reactive/model";
-import * as dotenv from "dotenv";
-
 import { ContextualCompressionRetriever } from "langchain/retrievers/contextual_compression";
 import { LLMChainExtractor } from "langchain/retrievers/document_compressors/chain_extract";
 import { VectorDBQAChain } from "langchain/chains";
 import { DocsManager } from "./documents";
 import { EmbeddingsManager } from "./embeddings";
 
+import * as dotenv from "dotenv";
 dotenv.config();
 console.log("update code");
 
 interface IChain {}
 export /*bundle*/ class Chain extends ReactiveModel<IChain> {
-  #model;
   #retriever;
+
+  #model;
+  get model() {
+    return this.#model;
+  }
 
   #documents;
   get documents() {
@@ -30,12 +33,12 @@ export /*bundle*/ class Chain extends ReactiveModel<IChain> {
     super();
     this.#model = new OpenAI({
       temperature: 0.2,
-      openAIApiKey: process.env.openAIApiKey,
+      openAIApiKey: process.env.OPEN_AI_KEY,
       modelName: "gpt-3.5-turbo",
     });
 
-    this.#documents = new DocsManager(this.#model);
-    this.#embeddings = new EmbeddingsManager(this.#model);
+    this.#documents = new DocsManager(this);
+    this.#embeddings = new EmbeddingsManager(this);
   }
 
   async question(q: string) {

@@ -6,14 +6,18 @@ import { DirectoryLoader } from "langchain/document_loaders/fs/directory";
 
 interface IDocs {}
 export /*bundle*/ class DocsManager extends ReactiveModel<IDocs> {
+  #chain;
   #splitter = new CharacterTextSplitter();
-  #items;
-  #model;
 
-  constructor(model) {
+  #items;
+  get items() {
+    return this.#items;
+  }
+
+  constructor(chain) {
     super();
 
-    this.#model = model;
+    this.#chain = chain;
   }
 
   async read() {
@@ -22,6 +26,6 @@ export /*bundle*/ class DocsManager extends ReactiveModel<IDocs> {
       ".docx": path => new DocxLoader("assets/introducing-beyond.docx"),
     });
     this.#items = await loader.loadAndSplit(this.#splitter);
-    console.log(1.1, "docs items", this.#items);
+    console.log(1.1, "docs items", this.#items.length);
   }
 }

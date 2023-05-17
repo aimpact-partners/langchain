@@ -8,43 +8,51 @@ import { OpenAIEmbeddings } from "langchain/embeddings/openai";
 dotenv.config();
 interface IEmbeddings {}
 export /*bundle*/ class EmbeddingsManager extends ReactiveModel<IEmbeddings> {
-  #model;
+  #chain;
   #vectorStore;
 
-  constructor(model) {
+  constructor(chain) {
     super();
-    this.#model = model;
+    this.#chain = chain;
   }
 
-  async set() {
+  #client;
+  #pineconeIndex;
+  async init() {
     console.log(2.1, globalThis.baseUrl, globalThis.baseDir);
     // PineconeClient ------
 
-    const client = new PineconeClient();
-    console.log(2.2, "setEmbeddings", client, process.env.PINECONE_API_KEY);
-    await client.init({
+    this.#client = new PineconeClient();
+    console.log(2.2, "setEmbeddings", this.#client, process.env.PINECONE_API_KEY);
+    await this.#client.init({
       apiKey: process.env.PINECONE_API_KEY,
       environment: process.env.PINECONE_ENVIRONMENT,
     });
 
-    console.log(2.3, client, process.env.PINECONE_INDEX);
-    const pineconeIndex = client.Index(process.env.PINECONE_INDEX);
+    console.log(2.3, this.#client, process.env.PINECONE_INDEX);
+    const index = await this.#client.createIndex({
+      createRequest: {
+        name: "example-index",
+        dimension: 1024,
+      },
+    });
     console.log(2.4, pineconeIndex);
 
-    console.log(2.5, !!PineconeStore.fromDocuments);
-    await PineconeStore.fromDocuments(
-      this.#model.docs.items,
-      new OpenAIEmbeddings({ openAIApiKey: process.env.openAIApiKey }),
-      {
-        pineconeIndex,
-      }
-    );
-    console.log(2.6, "after");
-
-    this.#vectorStore = await PineconeStore.fromExistingIndex(
-      new OpenAIEmbeddings({ openAIApiKey: process.env.openAIApiKey }),
+    const vectorStore = await PineconeStore.fromExistingIndex(
+      new OpenAIEmbeddings({ openAIApiKey: process.env.OPEN_AI_KEY }),
       { pineconeIndex }
     );
+
+    console.log(2.6, "after", vectorStore);
+  }
+
+  async set() {
+    console.log(2.5, !!PineconeStore.fromDocuments);
+    // await PineconeStore.fromDocuments(
+    //   this.#chain.documents.items,
+    //   new OpenAIEmbeddings({ openAIApiKey: process.env.OPEN_AI_KEY }),
+    //   {this.#pineconeIndex}
+    // );
 
     console.log(2.7, "this.#vectorStore", this.#vectorStore);
 
@@ -56,11 +64,15 @@ export /*bundle*/ class EmbeddingsManager extends ReactiveModel<IEmbeddings> {
     //   new OpenAIEmbeddings({ openAIApiKey: config.params.openia.key })
     // );
     // console.log(10, this.#vectorStore);
-    // const baseCompressor = LLMChainExtractor.fromLLM(this.#model);
+    // const baseCompressor = LLMChainExtractor.fromLLM(this.#chain);
     // this.#retriever = new ContextualCompressionRetriever({
     //   baseCompressor,
     //   baseRetriever: this.#vectorStore.asRetriever(),
     // });
-    // console.log(11, this.#model, this.#retriever);
+    // console.log(11, this.#chain, this.#retriever);
+  }
+
+  async query() {
+    // const vectorStore = await PineconeStore.fromExistingIndex(new OpenAIEmbeddings(), { pineconeIndex });
   }
 }
