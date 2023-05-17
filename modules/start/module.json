@@ -1,0 +1,9 @@
+{
+  "name": "config-start",
+  "start": {
+    "ts": {
+      "path": "/start/ts",
+      "files": ["*"]
+    }
+  }
+}

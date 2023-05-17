@@ -7,8 +7,6 @@ import { VectorDBQAChain } from "langchain/chains";
 import { DocsManager } from "./documents";
 import { EmbeddingsManager } from "./embeddings";
 
-import * as dotenv from "dotenv";
-dotenv.config();
 console.log("update code");
 
 interface IChain {}
@@ -39,6 +37,13 @@ export /*bundle*/ class Chain extends ReactiveModel<IChain> {
 
     this.#documents = new DocsManager(this);
     this.#embeddings = new EmbeddingsManager(this);
+  }
+
+  async init() {
+    await this.#documents.read();
+    // await this.#embeddings.init();
+
+    console.log("chain ready");
   }
 
   async question(q: string) {
