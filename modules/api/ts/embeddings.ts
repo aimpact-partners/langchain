@@ -13,13 +13,13 @@ export /*bundle*/ class EmbeddingsManager extends ReactiveModel<IEmbeddings> {
   constructor(chain) {
     super();
     this.#chain = chain;
+    this.#client = new PineconeClient();
   }
 
   #client;
   #pineconeIndex;
 
   async init() {
-    this.#client = new PineconeClient();
     await this.#client.init({
       apiKey: process.env.PINECONE_API_KEY,
       environment: process.env.PINECONE_ENVIRONMENT,
@@ -37,41 +37,6 @@ export /*bundle*/ class EmbeddingsManager extends ReactiveModel<IEmbeddings> {
     await PineconeStore.fromDocuments(docs, embedding, { pineconeIndex });
 
     this.#vectorStore = await PineconeStore.fromExistingIndex(embedding, { pineconeIndex });
-    //   new OpenAIEmbeddings({ openAIApiKey: process.env.OPEN_AI_KEY }),
-    //   { index }
-    // );
-
-    // console.log(2.6, "after", vectorStore);
-    // const results = await vectorStore.similaritySearch("pinecone", 1, {
-    //   foo: "bar",
-    // });
-    // console.log(2.7, results);
-  }
-
-  async set() {
-    console.log(2.5, !!PineconeStore.fromDocuments);
-    // await PineconeStore.fromDocuments(
-    //   this.#chain.documents.items,
-    //   new OpenAIEmbeddings({ openAIApiKey: process.env.OPEN_AI_KEY }),
-    //   {this.#pineconeIndex}
-    // );
-
-    console.log(2.7, "this.#vectorStore", this.#vectorStore);
-
-    //------ PineconeClient
-
-    // HNSWLib --- Load the docs into the vector store
-    // this.#vectorStore = await HNSWLib.fromDocuments(
-    //   docs,
-    //   new OpenAIEmbeddings({ openAIApiKey: config.params.openia.key })
-    // );
-    // console.log(10, this.#vectorStore);
-    // const baseCompressor = LLMChainExtractor.fromLLM(this.#chain);
-    // this.#retriever = new ContextualCompressionRetriever({
-    //   baseCompressor,
-    //   baseRetriever: this.#vectorStore.asRetriever(),
-    // });
-    // console.log(11, this.#chain, this.#retriever);
   }
 
   async search(question: string) {
@@ -81,7 +46,6 @@ export /*bundle*/ class EmbeddingsManager extends ReactiveModel<IEmbeddings> {
 
     /* Search the vector DB independently with meta filters */
     const results = await this.#vectorStore.similaritySearch(question, 1, {});
-    // console.log("similarity results", results);
     return results;
   }
 
@@ -96,7 +60,6 @@ export /*bundle*/ class EmbeddingsManager extends ReactiveModel<IEmbeddings> {
       returnSourceDocuments: true,
     });
     const response = await chain.call({ query: question });
-    // console.log("query response", response);
     return response.text;
   }
 }

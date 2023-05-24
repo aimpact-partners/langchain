@@ -1,5 +1,6 @@
 {
   "name": "config-start",
+  "platforms": ["backend", "node"],
   "start": {
     "ts": {
       "path": "/start/ts",

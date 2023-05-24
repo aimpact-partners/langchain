@@ -17,18 +17,19 @@ export /*bundle*/ class DocsManager extends ReactiveModel<IDocs> {
 
   constructor(chain) {
     super();
-
     this.#chain = chain;
   }
 
-  async read() {
-    const path = join(__dirname, "docs");
-    console.log(1, "readDocs on path:", path);
+  async prepare(path: string = "docs") {
+    if (this.#items) return;
+
+    path = join(__dirname, "assets", path);
+    // console.log("reading folder:", path);
     const loader = new DirectoryLoader(path, {
       ".docx": path => new DocxLoader(path),
       ".pdf": path => new PDFLoader(path),
     });
     this.#items = await loader.loadAndSplit(this.#splitter);
-    console.log(1.1, "docs items", this.#items.length);
+    // console.log("docs items", this.#items.length);
   }
 }
