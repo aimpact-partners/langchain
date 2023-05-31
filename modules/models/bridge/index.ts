@@ -1,10 +1,7 @@
 import { ChainAPI } from "@aimpact/langchain/api";
-import { ReactiveModel } from "@beyond-js/reactive/model";
-
-interface IChainModel {}
 
 export /*actions*/ /*bundle*/
-class ChainModel extends ReactiveModel<IChainModel> {
+class ChainModel {
   #api = new ChainAPI();
 
   async initialize() {
@@ -13,6 +10,7 @@ class ChainModel extends ReactiveModel<IChainModel> {
   }
 
   query(query: string, topic: string) {
+    console.log("QUERY Bridge:", query, topic);
     return this.#api.query(query, topic);
   }
 }

@@ -1,25 +1,19 @@
 {
-  "name": "home",
-  "platforms": [
-    "web"
-  ],
+  "name": "home-langchain",
+  "platforms": ["web"],
   "widget": {
     "is": "page",
-    "route": "/",
+    "route": "/langchain",
     "element": {
-      "name": "home-page"
+      "name": "home-langchain-page"
     },
     "sass": {
       "path": "sass",
-      "files": [
-        "*"
-      ]
+      "files": ["*"]
     },
     "ts": {
       "path": "ts",
-      "files": [
-        "*"
-      ]
+      "files": ["*"]
     }
   }
 }

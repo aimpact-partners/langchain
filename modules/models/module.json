@@ -2,11 +2,7 @@
   "name": "models",
   "bridge": {
     "path": "bridge",
-    "files": [
-      "*"
-    ]
+    "files": ["*"]
   },
-  "platforms": [
-    "*"
-  ]
+  "platforms": ["*"]
 }

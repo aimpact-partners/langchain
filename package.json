@@ -21,6 +21,11 @@
       "key": "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"
     }
   },
+  "libraries": {
+    "imports": [
+      "@beyond-js/reactive-2"
+    ]
+  },
   "deployment": {
     "distributions": [
       {
@@ -60,13 +65,13 @@
     "@beyond-js/backend": "~0.1.6",
     "@beyond-js/kernel": "~0.1.8",
     "@beyond-js/local": "~0.1.3",
-    "@beyond-js/reactive": "~1.0.0",
     "@beyond-js/react-18-widgets": "~0.0.1",
     "@pinecone-database/pinecone": "^0.1.5",
+    "@google-cloud/storage": "^6.10.1",
     "socket.io-client": "^4.5.4",
-    "langchain": "^0.0.75",
     "dotenv": "^16.0.3",
     "openai": "^3.2.1",
+    "langchain": "^0.0.75",
     "mammoth": "^1.5.1",
     "pdf-parse": "1.1.1"
   },

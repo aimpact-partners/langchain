@@ -1,0 +1,9 @@
+{
+  "name": "agent",
+  "ts": {
+    "path": "ts",
+    "files": [
+      "*"
+    ]
+  }
+}
