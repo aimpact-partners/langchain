@@ -6,8 +6,6 @@ import { VectorDBQAChain } from "langchain/chains";
 import * as dotenv from "dotenv";
 dotenv.config();
 
-console.log("Credentials ", process.env.OPEN_AI_KEY, process.env.PINECONE_API_KEY);
-
 export /*bundle*/ class EmbeddingsManager {
   #embedding;
   #chain;

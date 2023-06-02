@@ -2,8 +2,6 @@ import { OpenAI } from "langchain/llms/openai";
 import { DocsManager } from "./documents";
 import { EmbeddingsManager } from "./embeddings";
 
-console.log("update ChainAPI code");
-
 export /*bundle*/ class ChainAPI {
   #model;
   get model() {

@@ -19,22 +19,17 @@ export /*bundle*/ class DocsManager {
   }
 
   async prepare(path: string = "docs") {
-    console.log("docs prepare", path);
-
     if (!path) {
       console.error("path not defined");
       return;
     }
 
     const tempPath = await downloadFiles(path);
-    console.log("reading folder:", tempPath);
-
     const loader = new DirectoryLoader(tempPath, {
       ".docx": path => new DocxLoader(path),
       ".pdf": path => new PDFLoader(path),
       ".txt": path => new TextLoader(path),
     });
     this.#items = await loader.loadAndSplit(this.#splitter);
-    console.log("docs items", this.#items.length);
   }
 }
