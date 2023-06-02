@@ -10,7 +10,6 @@ class ChainModel {
   }
 
   query(query: string, topic: string) {
-    console.log("QUERY Bridge:", query, topic);
     return this.#api.query(query, topic);
   }
 }
