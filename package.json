@@ -16,11 +16,6 @@
   "modules": {
     "path": "modules"
   },
-  "params": {
-    "openia": {
-      "key": "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"
-    }
-  },
   "libraries": {
     "imports": [
       "@beyond-js/reactive-2"

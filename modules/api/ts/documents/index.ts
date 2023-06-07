@@ -18,7 +18,7 @@ export /*bundle*/ class DocsManager {
     this.#chain = chain;
   }
 
-  async prepare(path: string = "docs") {
+  async prepare(path: string) {
     if (!path) {
       console.error("path not defined");
       return;

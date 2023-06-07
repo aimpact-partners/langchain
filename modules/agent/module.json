@@ -1,9 +1,8 @@
 {
   "name": "agent",
+  "platforms": ["node"],
   "ts": {
     "path": "ts",
-    "files": [
-      "*"
-    ]
+    "files": ["*"]
   }
 }

@@ -10,7 +10,7 @@ export async function downloadFiles(prefix: string): Promise<string> {
   const bucket = storage.bucket(bucketName);
   const [files] = await bucket.getFiles({ prefix });
 
-  const tempPath: string = path.join(os.tmpdir(), "bucket");
+  const tempPath: string = path.join(os.tmpdir(), "bucket", bucketName, prefix);
   await fs.promises.mkdir(tempPath, { recursive: true });
 
   const downloadPromises = files.map(async file => {
